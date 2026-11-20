@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/* Laptop-height desktop screens (e.g. 1366x768, 1440x900), where compact sections tighten further to fit one screen. */
+@custom-variant short (@media (min-width: 64rem) and (max-height: 920px));
+
+/* ---------- Design tokens ---------- */
+/* Light pastel theme taken from the artwork: warm cream walls, lavender sky, sunset peach,
+   deep navy-violet headlines and the indigo → purple → pink → orange brand gradient. */
+@theme {
+  --color-ink: #fbf6f2;
+  --color-ink-2: #f3ecf7;
+  --color-heading: #15122e;
+  --color-violet: #6a2bd9;
+  --color-violet-2: #7b3cf0;
+  --color-rose: #c2457f;
+  --color-blue: #3b4fe0;
+  --color-mint: #12a06a;
+  --color-amber: #c47d00;
+  --color-magenta: #e8336f;
+  --color-orange: #f2652a;
+  --color-body: #4b4664;
+  --color-muted: #7a7593;
+  --color-line: rgb(60 40 120 / 0.1);
+  --color-line-strong: rgb(60 40 120 / 0.18);
+  --color-surface: rgb(255 255 255 / 0.6);
+  --color-surface-2: rgb(255 255 255 / 0.9);
+  /* Home page card template: frosted white panels on the pastel page. */
+  --color-panel: rgb(255 255 255 / 0.62);
+  --color-tile: #f5effa;
+  --color-live: #16a34a;
+  /* Frosted fill and its bright edge; near-invisible in the dark theme. */
+  --color-frost: rgb(255 255 255 / 0.7);
+  --color-edge: rgb(255 255 255 / 0.75);
+
+  /* --font-hanken is set by next/font in src/app/layout.tsx */
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-pulse-dot: pulse-dot 2s infinite;
+
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @keyframes pulse-dot {
+    70% { box-shadow: 0 0 0 10px rgb(22 163 74 / 0); }
+    100% { box-shadow: 0 0 0 0 rgb(22 163 74 / 0); }
+  }
+}
+
+/* Dark theme: the original night palette (deep ink, violet glow, white headings).
+   Toggled by ThemeToggle, which sets data-theme="dark" on <html>. */
+[data-theme="dark"] {
+  --color-ink: #03000a;
+  --color-ink-2: #0a0614;
+  --color-heading: #ffffff;
+  --color-violet: #7028e4;
+  --color-violet-2: #9747ff;
+  --color-rose: #dfa0be;
+  --color-blue: #6f86ff;
+  --color-mint: #3ddc97;
+  --color-amber: #ffb547;
+  --color-magenta: #ff4f8b;
+  --color-orange: #ff7a3d;
+  --color-body: #b9b6cc;
+  --color-muted: #7d7a99;
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-line-strong: rgb(255 255 255 / 0.16);
+  --color-surface: rgb(255 255 255 / 0.04);
+  --color-surface-2: rgb(255 255 255 / 0.07);
+  --color-panel: rgb(255 255 255 / 0.035);
+  --color-tile: rgb(255 255 255 / 0.05);
+  --color-live: #22c55e;
+  --color-frost: rgb(255 255 255 / 0.04);
+  --color-edge: rgb(255 255 255 / 0.09);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: light; }
+  body {
+    @apply bg-ink font-sans text-[17px] leading-relaxed text-body antialiased overflow-x-hidden max-sm:text-base;
+    /* Lavender sky top-right, sunset peach bottom-left, as in the banners. */
+    background-image:
+      radial-gradient(1100px 700px at 105% -10%, rgb(176 158 255 / 0.38), transparent 60%),
+      radial-gradient(900px 650px at -10% 105%, rgb(255 184 140 / 0.36), transparent 60%),
+      radial-gradient(700px 500px at 50% 45%, rgb(255 214 226 / 0.25), transparent 70%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 { @apply font-medium leading-[1.12] tracking-[-0.02em] text-heading; }
+  :focus-visible { @apply rounded-md outline-2 outline-offset-3 outline-violet-2; }
+  ::selection { background: rgb(123 60 240 / 0.2); }
+  [data-theme="dark"] body { background-image: none; }
+  [data-theme="dark"] ::selection { background: rgb(151 71 255 / 0.4); }
+}
+
+/* Brand gradient (indigo → purple → magenta → orange, as in the artwork).
+   A real utility so it can be @apply'd and used in markup. */
+@utility bg-grad {
+  background-image: var(--brand-grad);
+}
+:root { --brand-grad: linear-gradient(100deg, #3a2be0 0%, #8a2be2 42%, #e8336f 78%, #f2652a 100%); }
+[data-theme="dark"] { --brand-grad: linear-gradient(100deg, #6b3bff 0%, #b23cff 45%, #ff4f8b 80%, #ff7a3d 100%); }
+
+/* ---------- Reusable pieces ---------- */
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-[1200px] px-6 max-sm:px-4; }
+  .h1 { @apply text-[clamp(42px,6.4vw,76px)]; }
+  .h2 { @apply text-[clamp(34px,4.6vw,56px)]; }
+
+  /* The headline gradient from the artwork ("BUSINESS.", "TREASURY."). */
+  .grad-text {
+    background-image: linear-gradient(90deg, #2f2ad8 0%, #8a2be2 40%, #e0306f 72%, #f2652a 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .kicker { @apply mb-[18px] inline-block text-sm font-semibold uppercase tracking-[0.14em] text-rose; }
+
+  .btn {
+    @apply inline-flex h-[52px] cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full border border-transparent px-[26px] text-base font-semibold leading-none text-white transition duration-300 hover:-translate-y-0.5;
+  }
+  .btn-primary { @apply bg-grad shadow-[0_10px_34px_-12px_rgb(123_60_240/0.6)] hover:shadow-[0_16px_44px_-12px_rgb(123_60_240/0.75)]; }
+  .btn-ghost { @apply border-line-strong bg-surface text-heading hover:bg-surface-2; }
+  .btn-light { @apply bg-heading text-white hover:bg-heading/90; }
+  .btn-sm { @apply h-11 px-5 text-[15px]; }
+
+  /* Frosted card with cursor-follow glow (Card sets --mx/--my). */
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border border-white/70 p-[34px] shadow-[0_14px_40px_-22px_rgb(60_40_120/0.35)] backdrop-blur-sm transition duration-[350ms] hover:-translate-y-1.5 hover:border-violet-2/35 max-sm:p-[26px];
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.8), rgb(255 255 255 / 0.55));
+  }
+  .glass-card::before {
+    content: ""; position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .35s ease;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 0%), rgb(123 60 240 / 0.08), transparent 45%);
+  }
+  .glass-card:hover::before { opacity: 1; }
+
+  .icon-box {
+    @apply mb-[26px] grid size-14 place-items-center rounded-[14px] text-white shadow-[0_10px_24px_-10px_rgb(123_60_240/0.7)];
+    background-image: linear-gradient(135deg, #6a2bd9, #d23aa0);
+  }
+
+  .cta-grid {
+    background-image: linear-gradient(rgb(60 40 120 / 0.07) 1px, transparent 1px), linear-gradient(90deg, rgb(60 40 120 / 0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
+  }
+  /* Home page card template (frosted panels with a small uppercase breadcrumb). */
+  .panel { @apply rounded-[28px] border border-white/80 bg-panel p-8 shadow-[0_20px_60px_-30px_rgb(60_40_120/0.35)] backdrop-blur-md max-sm:rounded-3xl max-sm:p-6; }
+  .tile { @apply rounded-[20px] bg-tile p-6; }
+  .crumb { @apply block text-[15px] font-semibold tracking-[0.04em] text-muted uppercase max-sm:text-sm; }
+  .caps { @apply font-bold tracking-[-0.01em] text-heading uppercase; }
+
+  .marquee-mask { mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
+
+  /* Closing call-to-action banner glow. */
+  .cta-glow { background-image: radial-gradient(ellipse at 50% 120%, rgb(255 184 140 / .45), transparent 55%), radial-gradient(ellipse at 50% 0%, rgb(176 158 255 / .5), transparent 70%); }
+
+  /* Dark-theme versions of the pieces above that hard-code light fills. */
+  [data-theme="dark"] .grad-text { background-image: linear-gradient(90deg, #a18cff 0%, #c25cff 40%, #ff5c9a 72%, #ff8a4c 100%); }
+  [data-theme="dark"] .btn-primary { @apply shadow-[0_10px_40px_-10px_rgb(151_71_255/0.7)] hover:shadow-[0_16px_50px_-10px_rgb(151_71_255/0.9)]; }
+  [data-theme="dark"] .btn-light { @apply bg-white text-black hover:bg-white/90; }
+  [data-theme="dark"] .glass-card {
+    @apply border-line shadow-none backdrop-blur-none;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(153 153 153 / 0.03));
+  }
+  [data-theme="dark"] .glass-card::before { background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 0%), rgb(151 71 255 / 0.14), transparent 45%); }
+  [data-theme="dark"] .icon-box {
+    @apply border border-white/15 shadow-none;
+    background-image: linear-gradient(135deg, rgb(112 40 228 / 0.5), rgb(223 160 190 / 0.25));
+  }
+  [data-theme="dark"] .cta-grid { background-image: linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px); }
+  [data-theme="dark"] .cta-glow { background-image: radial-gradient(ellipse at 50% 120%, rgb(223 160 190 / .45), transparent 55%), radial-gradient(ellipse at 50% 0%, rgb(112 40 228 / .55), transparent 70%); }
+  [data-theme="dark"] .panel { @apply border-line shadow-none; }
+}
+
+/* Showcase tab progress bar (used via animate-[grow_6s_linear_forwards]). */
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Knitted robot-finger cursor (public/cursor), mouse users only. The hotspot is the fingertip.
+   Unlayered on purpose, so it wins over Tailwind's cursor-* utilities. */
+@media (pointer: fine) {
+  html { cursor: url("/cursor/robot.svg") 9 2, auto; }
+  a[href], button:not(:disabled), summary, label[for], select, [role="button"], [role="menuitem"], [role="tab"], .cursor-pointer {
+    cursor: url("/cursor/robot-tap.svg") 9 2, pointer;
+  }
+  input:not([type="checkbox"], [type="radio"], [type="range"]), textarea, [contenteditable="true"] { cursor: text; }
+  :disabled, .cursor-not-allowed { cursor: not-allowed; }
+  .cursor-wait { cursor: wait; }
+}

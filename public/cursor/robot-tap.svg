@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- Hover variant of robot.svg: the same glove with a glowing fingertip and sparks, shown over clickable things. -->
+  <defs>
+    <pattern id="knit" width="2.4" height="2.4" patternUnits="userSpaceOnUse">
+      <path d="M0.2 0.5 L1.2 1.7 L2.2 0.5" fill="none" stroke="#2532b0" stroke-width="0.55" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    </pattern>
+  </defs>
+  <g transform="rotate(-18 9.5 2)" stroke-linejoin="round">
+    <!-- White halo so the cursor reads on light and dark pages. -->
+    <g fill="#fff" stroke="#fff" stroke-width="2.8">
+      <rect x="7" y="2" width="5" height="15" rx="2.5"/>
+      <rect x="6" y="12.5" width="16" height="12.5" rx="4.5"/>
+      <ellipse cx="6.2" cy="18.5" rx="2.6" ry="3.6"/>
+      <rect x="7.5" y="23.5" width="14" height="6.5" rx="2"/>
+    </g>
+    <!-- Cuff: cream knit with the robot's pink and purple stripes. -->
+    <rect x="7.5" y="23.5" width="14" height="6.5" rx="2" fill="#f4e8da" stroke="#15122e" stroke-width="1"/>
+    <path d="M8.3 25.9 H20.7" stroke="#e8336f" stroke-width="1.1"/>
+    <path d="M8.3 27.9 H20.7" stroke="#7b3cf0" stroke-width="1.1"/>
+    <!-- Glove: palm with curled fingers, thumb, and the pointing index finger. -->
+    <g fill="#3b4fe0" stroke="#15122e" stroke-width="1">
+      <rect x="6" y="12.5" width="16" height="12.5" rx="4.5"/>
+      <ellipse cx="6.2" cy="18.5" rx="2.6" ry="3.6"/>
+      <rect x="7" y="2" width="5" height="15" rx="2.5"/>
+    </g>
+    <g fill="url(#knit)">
+      <rect x="6.5" y="13" width="15" height="11.5" rx="4"/>
+      <rect x="7.5" y="2.5" width="4" height="14" rx="2"/>
+    </g>
+    <!-- Curled finger knuckles. -->
+    <g fill="none" stroke="#15122e" stroke-width="0.9" stroke-linecap="round">
+      <path d="M12.6 13.2 C13 15.2 15.6 15.2 16 13.4"/>
+      <path d="M16 13.4 C16.4 15.4 19 15.4 19.4 13.7"/>
+    </g>
+    <!-- Glowing fingertip. -->
+    <ellipse cx="9.5" cy="4.2" rx="1.6" ry="1.9" fill="#ff8fd0" opacity="0.9"/>
+    <ellipse cx="9.2" cy="3.9" rx="0.7" ry="0.9" fill="#fff"/>
+  </g>
+  <!-- Sparks off the fingertip, in the brand gradient colours. -->
+  <g stroke-linecap="round" stroke-width="1.6">
+    <path d="M13.6 2.2 L16.2 0.9" stroke="#e8336f"/>
+    <path d="M14.4 5 L17.2 5" stroke="#f2652a"/>
+    <path d="M13.2 7.6 L15.6 9" stroke="#8a2be2"/>
+  </g>
+</svg>
